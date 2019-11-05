@@ -1,0 +1,142 @@
+
+SQL*Plus: Release 10.2.0.1.0 - Production on Fri Oct 5 14:16:30 2018
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+SQL> connect system/root
+Connected.
+SQL> create table Borrower(rno number(5),name varchar2(20),dateofissue date,nameofbook varchar2(20),status varchar2(20)) ;
+
+Table created.
+
+SQL> insert into Borrower values(1,'aditi','11 sep 2017','PLSQL','I');
+
+1 row created.
+
+SQL>
+SQL> SQL> insert into Borrower2 values(1,'aditi','2017-09-20','PLSQL','I');
+SP2-0734: unknown command beginning "SQL> inser..." - rest of line ignored.
+SQL> SQL> insert into Borrower values(1,'aditi','20 sep 2017','PLSQL','I');
+SP2-0734: unknown command beginning "SQL> inser..." - rest of line ignored.
+SQL> insert into Borrower values(1,'aditi','20 Sep 2017','PLSQL','I');
+
+1 row created.
+
+SQL> select * from Borrower2;
+
+       RNO NAME                 DATEOFISS NAMEOFBOOK
+---------- -------------------- --------- --------------------
+STATUS
+--------------------
+         1 aditi                11-SEP-17 PLSQL
+I
+
+         1 aditi                20-SEP-17 PLSQL
+I
+
+
+SQL> create table Fine(rno number(10),sdate date,fineamount number(20)) ;
+
+Table created.
+
+SQL> declare
+  2         rno1 number(5):=&rno;
+  3         bname varchar2(10):='&bookname';
+  4        noofdays number(7);
+  5         issuedate date;
+  6           fineamount number(5);
+  7           begin
+  8           select dateofissue into issuedate from Borrower2 where rno=rno1;
+  9           select sysdate -to_date(issuedate)days into noofdays from dual;
+ 10         if(noofdays>=15 and noofdays<=30)then
+ 11        fineamount:=noofdays*5;
+ 12       elsif noofdays>30  then
+ 13         fineamount:=noofdays*50;
+ 14        end if;
+ 15         update Borrower2 set status='R' where rno=rno1;
+ 16         if fineamount>=0 then
+ 17         insert into Fine values(rno1,sysdate,fineamount);
+ 18        end if;
+ 19
+ 20         EXCEPTION
+ 21        when no_data_found then
+ 22        dbms_output.put_line('record not found');
+ 23        end;
+ 24    /
+Enter value for rno: 1
+old   2:        rno1 number(5):=&rno;
+new   2:        rno1 number(5):=1;
+Enter value for bookname: dbms
+old   3:        bname varchar2(10):='&bookname';
+new   3:        bname varchar2(10):='dbms';
+declare
+*
+ERROR at line 1:
+ORA-01422: exact fetch returns more than requested number of rows
+ORA-06512: at line 8
+
+
+SQL> delete from Borrower2 where dateofissue='20 sep 2017';
+
+1 row deleted.
+
+SQL> select * from Borrower2;
+
+       RNO NAME                 DATEOFISS NAMEOFBOOK
+---------- -------------------- --------- --------------------
+STATUS
+--------------------
+         1 aditi                11-SEP-17 PLSQL
+I
+
+
+SQL> declare
+  2         rno1 number(5):=&rno;
+  3         bname varchar2(10):='&bookname';
+  4        noofdays number(7);
+  5         issuedate date;
+  6           fineamount number(5);
+  7           begin
+  8           select dateofissue into issuedate from Borrower2 where rno=rno1;
+  9           select sysdate -to_date(issuedate)days into noofdays from dual;
+ 10         if(noofdays>=15 and noofdays<=30)then
+ 11        fineamount:=noofdays*5;
+ 12       elsif noofdays>30  then
+ 13         fineamount:=noofdays*50;
+ 14        end if;
+ 15         update Borrower2 set status='R' where rno=rno1;
+ 16         if fineamount>=0 then
+ 17         insert into Fine values(rno1,sysdate,fineamount);
+ 18        end if;
+ 19
+ 20         EXCEPTION
+ 21        when no_data_found then
+ 22        dbms_output.put_line('record not found');
+ 23        end;
+ 24    /
+Enter value for rno: 1
+old   2:        rno1 number(5):=&rno;
+new   2:        rno1 number(5):=1;
+Enter value for bookname: dbms
+old   3:        bname varchar2(10):='&bookname';
+new   3:        bname varchar2(10):='dbms';
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from Borrower2;
+
+       RNO NAME                 DATEOFISS NAMEOFBOOK
+---------- -------------------- --------- --------------------
+STATUS
+--------------------
+         1 aditi                11-SEP-17 PLSQL
+R
+
+
+SQL> select * from fine;
+
+       RNO SDATE     FINEAMOUNT
+---------- --------- ----------
+         1 05-OCT-18      19500
+
+SQL>

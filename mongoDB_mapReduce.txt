@@ -1,0 +1,250 @@
+
+C:\Users\PG>cd mongodb-win32-i386-2.6.2
+
+C:\Users\PG\mongodb-win32-i386-2.6.2>mongo.exe
+'mongo.exe' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\PG\mongodb-win32-i386-2.6.2>cd bin
+
+C:\Users\PG\mongodb-win32-i386-2.6.2\bin>mongo.exe
+MongoDB shell version: 2.6.2
+connecting to: test
+Welcome to the MongoDB shell.
+For interactive help, type "help".
+For more comprehensive documentation, see
+        http://docs.mongodb.org/
+Questions? Try the support group
+        http://groups.google.com/group/mongodb-user
+Server has startup warnings:
+2018-09-19T10:05:30.238+0530 [initandlisten]
+2018-09-19T10:05:30.238+0530 [initandlisten] ** NOTE: This is a 32 bit MongoDB b
+inary.
+2018-09-19T10:05:30.238+0530 [initandlisten] **       32 bit builds are limited
+to less than 2GB of data (or less with --journal).
+2018-09-19T10:05:30.238+0530 [initandlisten] **       Note that journaling defau
+lts to off for 32 bit and is currently off.
+2018-09-19T10:05:30.238+0530 [initandlisten] **       See http://dochub.mongodb.
+org/core/32bit
+2018-09-19T10:05:30.238+0530 [initandlisten]
+> show dbs
+admin  (empty)
+local  0.078GB
+> db.createCollection("bank")
+{ "ok" : 1 }
+> db.bank.insert({custid:"A1",acctype:"SA",branch:"pune",balance:2000})
+WriteResult({ "nInserted" : 1 })
+> db.bank.insert({custid:"A1",acctype:"SA",branch:"mumbai",balance:5000})
+WriteResult({ "nInserted" : 1 })
+> db.bank.insert({custid:"B1",acctype:"SA",branch:"mumbai",balance:15000})
+WriteResult({ "nInserted" : 1 })
+> db.bank.insert({custid:"B1",acctype:"SA",branch:"pune",balance:25000})
+WriteResult({ "nInserted" : 1 })
+> db.bank.insert({custid:"C1",acctype:"SA",branch:"pune",balance:26000})
+WriteResult({ "nInserted" : 1 })
+> db.bank.insert({custid:"C1",acctype:"SA",branch:"mumbai",balance:52000})
+WriteResult({ "nInserted" : 1 })
+> db.bank.insert({custid:"C1",acctype:"CA",branch:"mumbai",balance:56000})
+WriteResult({ "nInserted" : 1 })
+> db.bank.insert({custid:"C1",acctype:"CA",branch:"pune",balance:66000})
+WriteResult({ "nInserted" : 1 })
+> db.bank.insert({custid:"B1",acctype:"CA",branch:"pune",balance:6900})
+WriteResult({ "nInserted" : 1 })
+> db.bank.find()
+{ "_id" : ObjectId("5ba1d3edd5766b4fc6f2f542"), "custid" : "A1", "acctype" : "SA
+", "branch" : "pune", "balance" : 2000 }
+{ "_id" : ObjectId("5ba1d403d5766b4fc6f2f543"), "custid" : "A1", "acctype" : "SA
+", "branch" : "mumbai", "balance" : 5000 }
+{ "_id" : ObjectId("5ba1d415d5766b4fc6f2f544"), "custid" : "B1", "acctype" : "SA
+", "branch" : "mumbai", "balance" : 15000 }
+{ "_id" : ObjectId("5ba1d428d5766b4fc6f2f545"), "custid" : "B1", "acctype" : "SA
+", "branch" : "pune", "balance" : 25000 }
+{ "_id" : ObjectId("5ba1d43bd5766b4fc6f2f546"), "custid" : "C1", "acctype" : "SA
+", "branch" : "pune", "balance" : 26000 }
+{ "_id" : ObjectId("5ba1d44cd5766b4fc6f2f547"), "custid" : "C1", "acctype" : "SA
+", "branch" : "mumbai", "balance" : 52000 }
+{ "_id" : ObjectId("5ba1d45cd5766b4fc6f2f548"), "custid" : "C1", "acctype" : "CA
+", "branch" : "mumbai", "balance" : 56000 }
+{ "_id" : ObjectId("5ba1d46cd5766b4fc6f2f549"), "custid" : "C1", "acctype" : "CA
+", "branch" : "pune", "balance" : 66000 }
+{ "_id" : ObjectId("5ba1d483d5766b4fc6f2f54a"), "custid" : "B1", "acctype" : "CA
+", "branch" : "pune", "balance" : 6900 }
+> db.bank.mapReduce(function(){emit(this.acctype,1);},function(key,values){retur
+n Array.sum(values)},{out:"Total_balance"})
+{
+        "result" : "Total_balance",
+        "timeMillis" : 148,
+        "counts" : {
+                "input" : 9,
+                "emit" : 9,
+                "reduce" : 2,
+                "output" : 2
+        },
+        "ok" : 1,
+}
+> db.Total_balance.find()
+{ db.bank.mapReduce(function(){emit(this.acctype,1);},function(key,values){return Array.sum(values)},{out:"To
+tal_balance"})educe(function(){emit(this.custid,1);},function(key,values){return Array.sum(ves)},balance"})
+{ db.bank.mapReduce(function(){emit(this.custid,1);},function(key,values){return Array.sum(ves)},{balance"})
+        "result" : "Total_balance",
+        "timeMillis" : 5,
+        "counts" : {
+                "input" : 9,
+                "emit" : 9,
+                "reduce" : 2,
+                "output" : 2
+        },
+        "ok" : 1,
+}
+> db.bank.mapReduce(function(){emit(this.custid,1);},function(key,values){return Array.sum(values)},{out:"cus
+tdet"})
+{
+        "result" : "custdet",
+        "timeMillis" : 6,
+        "counts" : {
+                "input" : 9,
+                "emit" : 9,
+                "reduce" : 3,
+                "output" : 3
+        },
+        "ok" : 1,
+}
+> db.custdet.find()
+{ "_id" : "A1", "value" : 2 }
+{ "_id" : "B1", "value" : 3 }
+{ "_id" : "C1", "value" : 4 }
+> db.bank.mapReduce(function(){emit(this.custid,1);},function(key,values){return Array.sum(values)},{query:{b
+ranch:"pune"},out:"custdet"})
+{
+        "result" : "custdet",
+        "timeMillis" : 7,
+        "counts" : {
+                "input" : 5,
+                "emit" : 5,
+                "reduce" : 2,
+                "output" : 3
+        },
+        "ok" : 1,
+}
+> db.custdet.find()
+{ "_id" : "A1", "value" : 1 }
+{ "_id" : "B1", "value" : 2 }
+{ "_id" : "C1", "value" : 2 }
+> db.bank.mapReduce(function(){emit(this.custid,1);},function(key,values){return Array.sum(values)},{query:{a
+cctype:"CA"},out:"accdet"})
+{
+        "result" : "accdet",
+        "timeMillis" : 6,
+        "counts" : {
+                "input" : 3,
+                "emit" : 3,
+                "reduce" : 1,
+                "output" : 2
+        },
+        "ok" : 1,
+}
+> db.accdet.find()
+{ "_id" : "B1", "value" : 1 }
+{ "_id" : "C1", "value" : 2 }
+> db.bank.mapReduce(function(){emit(this.custid,1);},function(key,values){return Array.sum(values)},{query:{a
+cctype:"SA"},out:"accdet"})
+{
+        "result" : "accdet",
+        "timeMillis" : 6,
+        "counts" : {
+                "input" : 6,
+                "emit" : 6,
+                "reduce" : 3,
+                "output" : 3
+        },
+        "ok" : 1,
+}
+> db.accdet.find()
+{ "_id" : "A1", "value" : 2 }
+{ "_id" : "B1", "value" : 2 }
+{ "_id" : "C1", "value" : 2 }
+> db.bank.mapReduce(function(){emit(this.acctype,1);},function(key,values){return Array.sum(values)},{out:"To
+tal_balance"})
+{
+        "result" : "Total_balance",
+        "timeMillis" : 13,
+        "counts" : {
+                "input" : 9,
+                "emit" : 9,
+                "reduce" : 2,
+                "output" : 2
+        },
+        "ok" : 1,
+}
+> db.Total_balance.find()
+{ "_id" : "CA", "value" : 3 }
+{ "_id" : "SA", "value" : 6 }
+> db.bank.mapReduce(function(){emit(this.acctype,1);},function(key,values){return Array.sum(values)},{out:"To
+tal_balance"})
+{
+        "result" : "Total_balance",
+        "timeMillis" : 5,
+        "counts" : {
+                "input" : 9,
+                "emit" : 9,
+                "reduce" : 2,
+                "output" : 2
+        },
+        "ok" : 1,
+}
+> db.Total_balance.find()
+{ "_id" : "CA", "value" : 3 }
+{ "_id" : "SA", "value" : 6 }
+> db.bank.mapReduce(function(){emit(this.custid,1);},function(key,values){return Array.sum(values)},{out:"cus
+tdet"})
+{
+        "result" : "custdet",
+        "timeMillis" : 5,
+        "counts" : {
+                "input" : 9,
+                "emit" : 9,
+                "reduce" : 3,
+                "output" : 3
+        },
+        "ok" : 1,
+}
+> db.custdet.find()
+{ "_id" : "A1", "value" : 2 }
+{ "_id" : "B1", "value" : 3 }
+{ "_id" : "C1", "value" : 4 }
+> db.bank.mapReduce(function(){emit(this.custid,1);},function(key,values){return Array.sum(values)},{query:{b
+ranch:"pune"},out:"custdet"})
+{
+        "result" : "custdet",
+        "timeMillis" : 4,
+        "counts" : {
+                "input" : 5,
+                "emit" : 5,
+                "reduce" : 2,
+                "output" : 3
+        },
+        "ok" : 1,
+}
+> db.custdet.find()
+{ "_id" : "A1", "value" : 1 }
+{ "_id" : "B1", "value" : 2 }
+{ "_id" : "C1", "value" : 2 }
+> db.bank.mapReduce(function(){emit(this.custid,1);},function(key,values){return Array.sum(values)},{query:{a
+cctype:"SA"},out:"accdet"})
+{
+        "result" : "accdet",
+        "timeMillis" : 5,
+        "counts" : {
+                "input" : 6,
+                "emit" : 6,
+                "reduce" : 3,
+                "output" : 3
+        },
+        "ok" : 1,
+}
+> db.accdet.find()
+{ "_id" : "A1", "value" : 2 }
+{ "_id" : "B1", "value" : 2 }
+{ "_id" : "C1", "value" : 2 }
+> db.bank.mapReduce(function(){emit(this.custid,1);},function(key,values){return Array.sum(values)},{query:{a
+cctype:"SA"},out:"accdet"})

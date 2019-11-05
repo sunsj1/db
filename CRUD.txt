@@ -1,0 +1,493 @@
+[JSPM@localhost ~]$ su
+Password: 
+[root@localhost JSPM]# mongo
+MongoDB shell version: 2.4.14
+connecting to: test
+> show dbs
+local	0.078125GB
+> use megha
+switched to db megha
+> show dbs
+local	0.078125GB
+> db.createCollection("student")
+{ "ok" : 1 }
+> db.student.insert({name:"megha",rollno:1,class:"B"})
+> db.student.insert({name:"megha",rollno:1,class:"B",sub:"DBMS"})
+> db.student.find()
+{ "_id" : ObjectId("5b7a5c06f9917d6a7a8c1cb6"), "name" : "megha", "rollno" : 1, "class" : "B" }
+{ "_id" : ObjectId("5b7a5c21f9917d6a7a8c1cb7"), "name" : "megha", "rollno" : 1, "class" : "B", "sub" : "DBMS" }
+> db.student.find().pretty()
+{
+	"_id" : ObjectId("5b7a5c06f9917d6a7a8c1cb6"),
+	"name" : "megha",
+	"rollno" : 1,
+	"class" : "B"
+}
+{
+	"_id" : ObjectId("5b7a5c21f9917d6a7a8c1cb7"),
+	"name" : "megha",
+	"rollno" : 1,
+	"class" : "B",
+	"sub" : "DBMS"
+}
+> db.student.insert({name:"mera",rollno:2,class:"C",sub:"CN"})
+> db.student.insert({name:"mahesh",rollno:3,class:"D",sub:"TOC"})
+> db.student.insert({name:"rohan",rollno:4,class:"E",sub:"ISEE"})
+> db.student.insert({name:"mahir",rollno:5,class:"F",sub:"SEPM"})
+> db.student.find()
+{ "_id" : ObjectId("5b7a5c06f9917d6a7a8c1cb6"), "name" : "megha", "rollno" : 1, "class" : "B" }
+{ "_id" : ObjectId("5b7a5c21f9917d6a7a8c1cb7"), "name" : "megha", "rollno" : 1, "class" : "B", "sub" : "DBMS" }
+{ "_id" : ObjectId("5b7a5e23f9917d6a7a8c1cb8"), "name" : "mera", "rollno" : 2, "class" : "C", "sub" : "CN" }
+{ "_id" : ObjectId("5b7a5e35f9917d6a7a8c1cb9"), "name" : "mahesh", "rollno" : 3, "class" : "D", "sub" : "TOC" }
+{ "_id" : ObjectId("5b7a5e49f9917d6a7a8c1cba"), "name" : "rohan", "rollno" : 4, "class" : "E", "sub" : "ISEE" }
+{ "_id" : ObjectId("5b7a5e5cf9917d6a7a8c1cbb"), "name" : "mahir", "rollno" : 5, "class" : "F", "sub" : "SEPM" }
+> db.student.find().pretty()
+{
+	"_id" : ObjectId("5b7a5c06f9917d6a7a8c1cb6"),
+	"name" : "megha",
+	"rollno" : 1,
+	"class" : "B"
+}
+{
+	"_id" : ObjectId("5b7a5c21f9917d6a7a8c1cb7"),
+	"name" : "megha",
+	"rollno" : 1,
+	"class" : "B",
+	"sub" : "DBMS"
+}
+{
+	"_id" : ObjectId("5b7a5e23f9917d6a7a8c1cb8"),
+	"name" : "mera",
+	"rollno" : 2,
+	"class" : "C",
+	"sub" : "CN"
+}
+{
+	"_id" : ObjectId("5b7a5e35f9917d6a7a8c1cb9"),
+	"name" : "mahesh",
+	"rollno" : 3,
+	"class" : "D",
+	"sub" : "TOC"
+}
+{
+	"_id" : ObjectId("5b7a5e49f9917d6a7a8c1cba"),
+	"name" : "rohan",
+	"rollno" : 4,
+	"class" : "E",
+	"sub" : "ISEE"
+}
+{
+	"_id" : ObjectId("5b7a5e5cf9917d6a7a8c1cbb"),
+	"name" : "mahir",
+	"rollno" : 5,
+	"class" : "F",
+	"sub" : "SEPM"
+}
+> db.student.insert({name:"rohan",rollno:5,class:"G",sub:"SDl"})
+> db.student.insert({_id:01,name:"rohan",rollno:5,class:"G",sub:"SDl"})
+> db.student.insert({_id:01,name:"rohan",rollno:5,class:"G",sub:"SDl"})
+E11000 duplicate key error index: megha.student.$_id_  dup key: { : 1.0 }
+> db.student.insert({name:"rohan",_id:02,rollno:5,class:"G",sub:"SDl"})
+> db.student.insert({name:"rohan",_id:02,rollno:5,class:"G",sub:"SDl"})
+E11000 duplicate key error index: megha.student.$_id_  dup key: { : 2.0 }
+> db.student.insert({name:"rohan",rollno:5,class:"G",sub:"SDl",_id:03})
+> db.student.insert({name:"rohan",rollno:5,class:"G",sub:"SDl",_id:03})
+E11000 duplicate key error index: megha.student.$_id_  dup key: { : 3.0 }
+> db.student.find().pretty()
+{
+	"_id" : ObjectId("5b7a5c06f9917d6a7a8c1cb6"),
+	"name" : "megha",
+	"rollno" : 1,
+	"class" : "B"
+}
+{
+	"_id" : ObjectId("5b7a5c21f9917d6a7a8c1cb7"),
+	"name" : "megha",
+	"rollno" : 1,
+	"class" : "B",
+	"sub" : "DBMS"
+}
+{
+	"_id" : ObjectId("5b7a5e23f9917d6a7a8c1cb8"),
+	"name" : "mera",
+	"rollno" : 2,
+	"class" : "C",
+	"sub" : "CN"
+}
+{
+	"_id" : ObjectId("5b7a5e35f9917d6a7a8c1cb9"),
+	"name" : "mahesh",
+	"rollno" : 3,
+	"class" : "D",
+	"sub" : "TOC"
+}
+{
+	"_id" : ObjectId("5b7a5e49f9917d6a7a8c1cba"),
+	"name" : "rohan",
+	"rollno" : 4,
+	"class" : "E",
+	"sub" : "ISEE"
+}
+{
+	"_id" : ObjectId("5b7a5e5cf9917d6a7a8c1cbb"),
+	"name" : "mahir",
+	"rollno" : 5,
+	"class" : "F",
+	"sub" : "SEPM"
+}
+{
+	"_id" : ObjectId("5b7a60c5f9917d6a7a8c1cbc"),
+	"name" : "rohan",
+	"rollno" : 5,
+	"class" : "G",
+	"sub" : "SDl"
+}
+{
+	"_id" : 1,
+	"name" : "rohan",
+	"rollno" : 5,
+	"class" : "G",
+	"sub" : "SDl"
+}
+{
+	"_id" : 2,
+	"name" : "rohan",
+	"rollno" : 5,
+	"class" : "G",
+	"sub" : "SDl"
+}
+{
+	"_id" : 3,
+	"name" : "rohan",
+	"rollno" : 5,
+	"class" : "G",
+	"sub" : "SDl"
+}
+> db.student.update({name:"megha"}),{$set:{rollno:10}})
+Mon Aug 20 12:14:32.619 SyntaxError: Unexpected token )
+> db.student.update({name:"megha"},{$set:{rollno:10}})
+> db.student.find()
+{ "_id" : ObjectId("5b7a5c06f9917d6a7a8c1cb6"), "name" : "megha", "rollno" : 10, "class" : "B" }
+{ "_id" : ObjectId("5b7a5c21f9917d6a7a8c1cb7"), "name" : "megha", "rollno" : 1, "class" : "B", "sub" : "DBMS" }
+{ "_id" : ObjectId("5b7a5e23f9917d6a7a8c1cb8"), "name" : "mera", "rollno" : 2, "class" : "C", "sub" : "CN" }
+{ "_id" : ObjectId("5b7a5e35f9917d6a7a8c1cb9"), "name" : "mahesh", "rollno" : 3, "class" : "D", "sub" : "TOC" }
+{ "_id" : ObjectId("5b7a5e49f9917d6a7a8c1cba"), "name" : "rohan", "rollno" : 4, "class" : "E", "sub" : "ISEE" }
+{ "_id" : ObjectId("5b7a5e5cf9917d6a7a8c1cbb"), "name" : "mahir", "rollno" : 5, "class" : "F", "sub" : "SEPM" }
+{ "_id" : ObjectId("5b7a60c5f9917d6a7a8c1cbc"), "name" : "rohan", "rollno" : 5, "class" : "G", "sub" : "SDl" }
+{ "_id" : 1, "name" : "rohan", "rollno" : 5, "class" : "G", "sub" : "SDl" }
+{ "_id" : 2, "name" : "rohan", "rollno" : 5, "class" : "G", "sub" : "SDl" }
+{ "_id" : 3, "name" : "rohan", "rollno" : 5, "class" : "G", "sub" : "SDl" }
+> db.student.find().prtty()
+Mon Aug 20 12:15:24.729 TypeError: Object DBQuery: megha.student -> { } has no method 'prtty'
+> db.student.find().pretty()
+{
+	"_id" : ObjectId("5b7a5c06f9917d6a7a8c1cb6"),
+	"name" : "megha",
+	"rollno" : 10,
+	"class" : "B"
+}
+{
+	"_id" : ObjectId("5b7a5c21f9917d6a7a8c1cb7"),
+	"name" : "megha",
+	"rollno" : 1,
+	"class" : "B",
+	"sub" : "DBMS"
+}
+{
+	"_id" : ObjectId("5b7a5e23f9917d6a7a8c1cb8"),
+	"name" : "mera",
+	"rollno" : 2,
+	"class" : "C",
+	"sub" : "CN"
+}
+{
+	"_id" : ObjectId("5b7a5e35f9917d6a7a8c1cb9"),
+	"name" : "mahesh",
+	"rollno" : 3,
+	"class" : "D",
+	"sub" : "TOC"
+}
+{
+	"_id" : ObjectId("5b7a5e49f9917d6a7a8c1cba"),
+	"name" : "rohan",
+	"rollno" : 4,
+	"class" : "E",
+	"sub" : "ISEE"
+}
+{
+	"_id" : ObjectId("5b7a5e5cf9917d6a7a8c1cbb"),
+	"name" : "mahir",
+	"rollno" : 5,
+	"class" : "F",
+	"sub" : "SEPM"
+}
+{
+	"_id" : ObjectId("5b7a60c5f9917d6a7a8c1cbc"),
+	"name" : "rohan",
+	"rollno" : 5,
+	"class" : "G",
+	"sub" : "SDl"
+}
+{
+	"_id" : 1,
+	"name" : "rohan",
+	"rollno" : 5,
+	"class" : "G",
+	"sub" : "SDl"
+}
+{
+	"_id" : 2,
+	"name" : "rohan",
+	"rollno" : 5,
+	"class" : "G",
+	"sub" : "SDl"
+}
+{
+	"_id" : 3,
+	"name" : "rohan",
+	"rollno" : 5,
+	"class" : "G",
+	"sub" : "SDl"
+}
+> db.student.update({name:"megha"},{$set:{rollno:10}},{multi:true})
+> db.student.find().pretty()
+{
+	"_id" : ObjectId("5b7a5c06f9917d6a7a8c1cb6"),
+	"name" : "megha",
+	"rollno" : 10,
+	"class" : "B"
+}
+{
+	"_id" : ObjectId("5b7a5c21f9917d6a7a8c1cb7"),
+	"name" : "megha",
+	"rollno" : 10,
+	"class" : "B",
+	"sub" : "DBMS"
+}
+{
+	"_id" : ObjectId("5b7a5e23f9917d6a7a8c1cb8"),
+	"name" : "mera",
+	"rollno" : 2,
+	"class" : "C",
+	"sub" : "CN"
+}
+{
+	"_id" : ObjectId("5b7a5e35f9917d6a7a8c1cb9"),
+	"name" : "mahesh",
+	"rollno" : 3,
+	"class" : "D",
+	"sub" : "TOC"
+}
+{
+	"_id" : ObjectId("5b7a5e49f9917d6a7a8c1cba"),
+	"name" : "rohan",
+	"rollno" : 4,
+	"class" : "E",
+	"sub" : "ISEE"
+}
+{
+	"_id" : ObjectId("5b7a5e5cf9917d6a7a8c1cbb"),
+	"name" : "mahir",
+	"rollno" : 5,
+	"class" : "F",
+	"sub" : "SEPM"
+}
+{
+	"_id" : ObjectId("5b7a60c5f9917d6a7a8c1cbc"),
+	"name" : "rohan",
+	"rollno" : 5,
+	"class" : "G",
+	"sub" : "SDl"
+}
+{
+	"_id" : 1,
+	"name" : "rohan",
+	"rollno" : 5,
+	"class" : "G",
+	"sub" : "SDl"
+}
+{
+	"_id" : 2,
+	"name" : "rohan",
+	"rollno" : 5,
+	"class" : "G",
+	"sub" : "SDl"
+}
+{
+	"_id" : 3,
+	"name" : "rohan",
+	"rollno" : 5,
+	"class" : "G",
+	"sub" : "SDl"
+}
+> db.student.update({name:"rohan"},{$set:{rollno:100}},{multi:true})
+> db.student.find().pretty()
+{
+	"_id" : ObjectId("5b7a5c06f9917d6a7a8c1cb6"),
+	"name" : "megha",
+	"rollno" : 10,
+	"class" : "B"
+}
+{
+	"_id" : ObjectId("5b7a5c21f9917d6a7a8c1cb7"),
+	"name" : "megha",
+	"rollno" : 10,
+	"class" : "B",
+	"sub" : "DBMS"
+}
+{
+	"_id" : ObjectId("5b7a5e23f9917d6a7a8c1cb8"),
+	"name" : "mera",
+	"rollno" : 2,
+	"class" : "C",
+	"sub" : "CN"
+}
+{
+	"_id" : ObjectId("5b7a5e35f9917d6a7a8c1cb9"),
+	"name" : "mahesh",
+	"rollno" : 3,
+	"class" : "D",
+	"sub" : "TOC"
+}
+{
+	"_id" : ObjectId("5b7a5e49f9917d6a7a8c1cba"),
+	"name" : "rohan",
+	"rollno" : 100,
+	"class" : "E",
+	"sub" : "ISEE"
+}
+{
+	"_id" : ObjectId("5b7a5e5cf9917d6a7a8c1cbb"),
+	"name" : "mahir",
+	"rollno" : 5,
+	"class" : "F",
+	"sub" : "SEPM"
+}
+{
+	"_id" : ObjectId("5b7a60c5f9917d6a7a8c1cbc"),
+	"name" : "rohan",
+	"rollno" : 100,
+	"class" : "G",
+	"sub" : "SDl"
+}
+{
+	"_id" : 1,
+	"name" : "rohan",
+	"rollno" : 100,
+	"class" : "G",
+	"sub" : "SDl"
+}
+{
+	"_id" : 2,
+	"name" : "rohan",
+	"rollno" : 100,
+	"class" : "G",
+	"sub" : "SDl"
+}
+{
+	"_id" : 3,
+	"name" : "rohan",
+	"rollno" : 100,
+	"class" : "G",
+	"sub" : "SDl"
+}
+> db.student.update({name:"rohan"},{$set:{_id:89}},{multi:true})
+Mod on _id not allowed
+> db.student.remove({rollno:5})
+> db.student.find().pretty()
+{
+	"_id" : ObjectId("5b7a5c06f9917d6a7a8c1cb6"),
+	"name" : "megha",
+	"rollno" : 10,
+	"class" : "B"
+}
+{
+	"_id" : ObjectId("5b7a5c21f9917d6a7a8c1cb7"),
+	"name" : "megha",
+	"rollno" : 10,
+	"class" : "B",
+	"sub" : "DBMS"
+}
+{
+	"_id" : ObjectId("5b7a5e23f9917d6a7a8c1cb8"),
+	"name" : "mera",
+	"rollno" : 2,
+	"class" : "C",
+	"sub" : "CN"
+}
+{
+	"_id" : ObjectId("5b7a5e35f9917d6a7a8c1cb9"),
+	"name" : "mahesh",
+	"rollno" : 3,
+	"class" : "D",
+	"sub" : "TOC"
+}
+{
+	"_id" : ObjectId("5b7a5e49f9917d6a7a8c1cba"),
+	"name" : "rohan",
+	"rollno" : 100,
+	"class" : "E",
+	"sub" : "ISEE"
+}
+{
+	"_id" : ObjectId("5b7a60c5f9917d6a7a8c1cbc"),
+	"name" : "rohan",
+	"rollno" : 100,
+	"class" : "G",
+	"sub" : "SDl"
+}
+{
+	"_id" : 1,
+	"name" : "rohan",
+	"rollno" : 100,
+	"class" : "G",
+	"sub" : "SDl"
+}
+{
+	"_id" : 2,
+	"name" : "rohan",
+	"rollno" : 100,
+	"class" : "G",
+	"sub" : "SDl"
+}
+{
+	"_id" : 3,
+	"name" : "rohan",
+	"rollno" : 100,
+	"class" : "G",
+	"sub" : "SDl"
+}
+> db.student.remove({rollno:100})
+> db.student.find().pretty()
+{
+	"_id" : ObjectId("5b7a5c06f9917d6a7a8c1cb6"),
+	"name" : "megha",
+	"rollno" : 10,
+	"class" : "B"
+}
+{
+	"_id" : ObjectId("5b7a5c21f9917d6a7a8c1cb7"),
+	"name" : "megha",
+	"rollno" : 10,
+	"class" : "B",
+	"sub" : "DBMS"
+}
+{
+	"_id" : ObjectId("5b7a5e23f9917d6a7a8c1cb8"),
+	"name" : "mera",
+	"rollno" : 2,
+	"class" : "C",
+	"sub" : "CN"
+}
+{
+	"_id" : ObjectId("5b7a5e35f9917d6a7a8c1cb9"),
+	"name" : "mahesh",
+	"rollno" : 3,
+	"class" : "D",
+	"sub" : "TOC"
+}
+> db.student.remove()
+> db.student.find().pretty()
+> 
+
+

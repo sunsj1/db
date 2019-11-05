@@ -1,0 +1,72 @@
+SQL> create table O_Rollcall(rno number(10),name varchar2(30));
+
+Table created.
+
+SQL> insert into O_Rollcall1 values(1,'kajal');
+
+1 row created.
+
+SQL> insert into O_Rollcall1 values(2,'Pragati');
+
+1 row created.
+
+SQL> insert into O_Rollcall1 values(3,'Mahesh');
+
+1 row created.
+
+SQL> select * from O_Rollcall1;
+
+       RNO NAME
+---------- ------------------------------
+         1 kajal
+         2 Pragati
+         3 Mahesh
+
+SQL> create table N_Rollcall1(rno number(10),name varchar2(30));
+
+Table created.
+
+SQL> insert into N_Rollcall1 values(3,'Mahesh');
+
+1 row created.
+
+SQL> select * from N_Rollcall1;
+
+       RNO NAME
+---------- ------------------------------
+         3 Mahesh
+
+SQL> declare
+          cursor c1 is
+         select rno,name from O_Rollcall1;
+         cursor c2 is
+         select rno from N_Rollcall1;
+         r number(4);
+         rn number(4);
+         nm varchar2(20);
+         begin
+       open c1;
+       open c2;
+      loop
+       fetch c1 into rn,nm;
+       fetch c2 into r;
+       exit when c1%found=false;
+       if r<>rn then
+       insert into N_Rollcall1 values(rn,nm);
+       end if;
+       end loop;
+      close c1;
+       end;
+ /
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from N_Rollcall1;
+
+       RNO NAME
+---------- ------------------------------
+         3 Mahesh
+         1 kajal
+         2 Pragati
+
+SQL>

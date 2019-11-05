@@ -1,0 +1,125 @@
+Experiment No:7
+Name : Vaishnavi Gunjal
+Roll no : 21
+Class : TE 'C'
+Batch : C1
+
+Problem statement:-
+
+PL/SQL Stored Procedure and Stored Function. 
+Write a Stored Procedure namely proc_Grade for the categorization of student. 
+* If marks scored by students in examination is <=1500 and marks>=990 then student will be placed in distinction category if marks scored are between 989 and900 category is first class, if marks 899 and 825 category is Higher Second Class 
+Write a PL/SQL block for using procedure created with above requirement. Stud_Marks(name, total_marks) Result(Roll,Name, Class) 
+Frame the separate problem statement for writing PL/SQL Stored Procedure and function, inline with above statement. The problem statement should clearly state the requirements. 
+/*********************************************************************************/
+
+SQL> create table Result1(roll number(5),name varchar2(15), class varchar2(15));
+
+Table created.
+
+SQL> create table Result(name varchar2(20),total_marks number(5));
+create table Result(name varchar2(20),total_marks number(5))
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+SQL> create table Stud_Marks1(name varchar2(20),total_marks number(5));
+
+Table created.
+
+SQL> create  or replace procedure proc_Grade(roll number,name varchar2,total_marks number)
+ 
+          is
+  
+          class varchar2(20);
+       begin
+        if(total_marks<=1500 and total_marks>=990)then
+         class :='Distinction';
+         elsif(total_marks<=989 and total_marks >=900)then
+        class :='First';
+       elsif(total_marks<=899 and total_marks>=825) then
+       class :='Higher Second';
+       end if;
+       insert into Stud_Marks1 values(name,total_marks);
+       insert into Result1 values(roll,name,class);
+       end  proc_Grade;
+      /
+
+Procedure created.
+
+SQL> exec proc_Grade(21,'ram',1000);
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from Stud_Marks;
+
+NAME                 TOTAL_MARKS
+-------------------- -----------
+ram                         1000
+
+SQL> select * from Result;
+
+      ROLL NAME            CLASS
+---------- --------------- ---------------
+        21 ram             Distinction
+
+SQL> exec proc_Grade(20,'ramu',825);
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from Result;
+
+      ROLL NAME            CLASS
+---------- --------------- ---------------
+        21 ram             Distinction
+        20 ramu            Higher Second
+
+SQL> select * from Stud_Marks;
+
+NAME                 TOTAL_MARKS
+-------------------- -----------
+ram                         1000
+ramu                         825
+
+SQL> insert into Stud_marks values('raj',950);
+
+1 row created.
+
+SQL> select * from Stud_Marks;
+
+NAME                 TOTAL_MARKS
+-------------------- -----------
+ram                         1000
+ramu                         825
+raj                          950
+
+SQL> select * from Result;
+
+      ROLL NAME            CLASS
+---------- --------------- ---------------
+        21 ram             Distinction
+        20 ramu            Higher Second
+
+SQL> exec proc_Grade(25,'raj',950);
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from Result;
+
+      ROLL NAME            CLASS
+---------- --------------- ---------------
+        21 ram             Distinction
+        20 ramu            Higher Second
+        25 raj             First
+
+SQL> select * from Stud_Marks;
+
+NAME                 TOTAL_MARKS
+-------------------- -----------
+ram                         1000
+ramu                         825
+raj                          950
+raj                          950
+
+SQL>
